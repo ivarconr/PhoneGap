@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FINN sommerjobb</title>
+
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        .item {
+            padding: 5px;
+            margin: 0;
+            border-bottom: 1px dotted gray;
+            border-top: 1px solid #efe;
+            text-align: center;
+        }
+
+        .item span {
+            display: block;
+        }
+
+        .item span.heading {
+            font-weight: bolder;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+
+    <script type="text/javascript" charset="utf-8" src="cordova-1.8.1.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Wait for Cordova to load
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // Cordova is ready
+    function onDeviceReady() {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    }
+
+    // onSuccess Geolocation
+    function onSuccess(position) {
+       $(function() {
+            $.get("http://m.finn.no/job/fulltime/search.html?page=0&keyword=sommerjobb&searchBy=1&type=1816&sort=1&isAJAX=true", handleData);
+            $.get("http://m.finn.no/job/fulltime/search.html?page=1&keyword=sommerjobb&searchBy=1&type=1816&sort=1&isAJAX=true", handleData);
+            $.get("http://m.finn.no/job/fulltime/search.html?page=2&keyword=sommerjobb&searchBy=1&type=1816&sort=1&isAJAX=true", handleData);
+            $.get("http://m.finn.no/job/fulltime/search.html?page=3&keyword=sommerjobb&searchBy=1&type=1816&sort=1&isAJAX=true", handleData);
+            $.get("http://m.finn.no/job/fulltime/search.html?page=4&keyword=sommerjobb&searchBy=1&type=1816&sort=1&isAJAX=true", handleData);
+
+            function handleData(data) {
+                    var resultItems = $(data).find(".result_item");
+                    resultItems.each(function(idx, item) {
+                        var logo = $(item).find("span.logo a").html();
+                        var link = $(item).find(".jobresultdiv3");
+                        
+                        var href = "http://m.finn.no" + $(link).find("a").attr("href");
+                        $(link).find("a").attr("href", href);
+
+                        var row = $("<div class='item'><a href='"+href+"'>" + logo + "</a><br />" +link.html()+"</div>");
+
+                        $("#results").append(row);
+                    });
+            }
+       });
+    }
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+
+    </script>
+  </head>
+  <body>
+    <div id="results"></div>
+  </body>
+</html>
