@@ -38,12 +38,7 @@
     document.addEventListener("deviceready", onDeviceReady, false);
 
     // Cordova is ready
-    function onDeviceReady() {
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    }
-
-    // onSuccess Geolocation
-    function onSuccess(position) {
+    function onDeviceReady(position) {
        $(function() {
             $.get("http://m.finn.no/job/fulltime/search.html?page=0&keyword=sommerjobb&searchBy=1&type=1816&sort=1&isAJAX=true", handleData);
             $.get("http://m.finn.no/job/fulltime/search.html?page=1&keyword=sommerjobb&searchBy=1&type=1816&sort=1&isAJAX=true", handleData);
